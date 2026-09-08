@@ -22,5 +22,5 @@
    "relevantForInst": [
       "420CARDS_CVUT"
    ],
-   "description": "Internal Alma Cloud App for Czech Technical University in Prague. Creates printable accession lists from a range of inventory numbers using an institution-configured Alma Analytics report and Alma APIs."
+   "description": "Internal Alma Cloud App for Czech Technical University in Prague. Creates printable accession lists from a range of inventory numbers using an institution-configured Alma Analytics report and Alma APIs. Requires the Analytics Administrator role."
 }
