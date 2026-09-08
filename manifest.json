@@ -3,6 +3,7 @@
   "title": "Přírůstkový seznam",
   "subtitle": "by ČVUT Praha",
   "author": "Antonín Skopec",
+  "license": "https://github.com/skopeant/alma-prirustkovy-seznam/blob/main/LICENSE",
   "icon": {
     "type": "url",
     "value": "/assets/prirustkovy-seznam.png"

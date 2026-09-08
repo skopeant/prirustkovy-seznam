@@ -26,3 +26,6 @@ Thumbs.db
 
 # Local ECA configuration
 config.json
+
+# Production build
+build/
