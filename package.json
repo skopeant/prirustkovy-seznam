@@ -1,7 +1,7 @@
 {
-  "name": "my-exl-cloudapp",
-  "version": "2.1.0",
-  "description": "",
+  "name": "alma-prirustkovy-seznam",
+  "version": "2.2.0",
+  "description": "Internal Alma Cloud App for Czech Technical University in Prague for generating printable accession lists.",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -50,5 +50,8 @@
     "karma-jasmine-html-reporter": "2.1.0",
     "postcss": "8.4.49",
     "typescript": "5.5.4"
+  },
+  "overrides": {
+   "tar": "7.5.22"
   }
 }

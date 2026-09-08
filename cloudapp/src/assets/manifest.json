@@ -1,23 +1,26 @@
 {
-  "id": "prirustkovy-seznam",
-  "title": "Přírůstkový seznam",
-  "subtitle": "by ČVUT Praha",
-  "author": "Antonín Skopec",
-  "license": "https://github.com/skopeant/alma-prirustkovy-seznam/blob/main/LICENSE",
-  "icon": {
-    "type": "url",
-    "value": "/assets/prirustkovy-seznam.png"
-  },
-  "pages": {
-    "config": "/#/config",
-    "help": "https://skopec.vosis.cz/alma/cloudapp/prirustkovy-seznam/en/"
-  },
-  "contentSecurity": {
-    "sandbox": {
-      "downloads": true,
-      "popups": true,
-      "popups-to-escape-sandbox": true
-    }
-  },
-  "description": "Creates printable accession lists from a range of inventory numbers. Uses an institution-configured Alma Analytics report to locate records, retrieves additional bibliographic, item and acquisition data from Alma APIs, and generates a PDF."
+   "id": "skopeant/prirustkovy-seznam",
+   "title": "Přírůstkový seznam",
+   "subtitle": "ČVUT Praha",
+   "author": "Antonín Skopec",
+   "license": "https://github.com/skopeant/alma-prirustkovy-seznam/blob/main/LICENSE",
+   "icon": {
+      "type": "url",
+      "value": "/assets/prirustkovy-seznam.png"
+   },
+   "pages": {
+      "config": "/#/config",
+      "help": "https://skopec.vosis.cz/alma/cloudapp/prirustkovy-seznam/en/"
+   },
+   "contentSecurity": {
+      "sandbox": {
+         "downloads": true,
+         "popups": true,
+         "popups-to-escape-sandbox": true
+      }
+   },
+   "relevantForInst": [
+      "420CARDS_CVUT"
+   ],
+   "description": "Internal Alma Cloud App for Czech Technical University in Prague. Creates printable accession lists from a range of inventory numbers using an institution-configured Alma Analytics report and Alma APIs."
 }
