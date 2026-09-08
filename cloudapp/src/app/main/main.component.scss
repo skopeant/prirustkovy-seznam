@@ -1,0 +1,185 @@
+.app-shell {
+  padding: 8px 10px 28px 10px;
+}
+
+.screen-controls {
+  max-width: 1100px;
+}
+
+.form-row {
+  display: flex;
+  gap: 18px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+.field {
+  flex: 1 1 320px;
+  margin-bottom: 16px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.field input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 9px 10px;
+  font-size: 15px;
+}
+
+.button-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.button-row button {
+  padding: 9px 18px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.download-box {
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid #999;
+}
+
+.download-link {
+  display: inline-block;
+  padding: 9px 16px;
+  border: 1px solid #666;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.download-name {
+  margin-top: 8px;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.progress,
+.error,
+.result {
+  margin-top: 16px;
+}
+
+.error {
+  font-weight: 600;
+}
+
+.warnings {
+  margin-top: 18px;
+  padding: 12px;
+  border: 1px solid #aaa;
+}
+
+.report {
+  margin-top: 30px;
+}
+
+.report-header {
+  margin-bottom: 14px;
+}
+
+.report-header h2 {
+  margin-bottom: 2px;
+}
+
+.report-range {
+  font-size: 13px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 11px;
+  line-height: 1.25;
+}
+
+.report-table th,
+.report-table td {
+  padding: 4px 5px;
+  border: 1px solid #bbb;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+.report-table th {
+  text-align: left;
+  font-weight: 700;
+}
+
+.report-table .price-cell {
+  text-align: right;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.description-cell {
+  line-height: 1.3;
+}
+
+.col-inventory { width: 9%; }
+.col-call { width: 6%; }
+.col-location { width: 11%; }
+.col-description { width: 28%; }
+.col-mms { width: 11%; }
+.col-method { width: 10%; }
+.col-price { width: 6%; }
+.col-date { width: 8%; }
+.col-invoice { width: 7%; }
+.col-vendor { width: 9%; }
+
+.config-shell {
+  padding: 8px 10px 28px 10px;
+  max-width: 760px;
+}
+
+.config-shell p {
+  line-height: 1.45;
+}
+
+.config-field {
+  margin-top: 20px;
+}
+
+.config-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.config-field input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 9px 10px;
+  font-size: 14px;
+}
+
+.field-help {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #555;
+}
+
+.config-warning {
+  margin-top: 16px;
+  padding: 10px 12px;
+  border: 1px solid #b7b7b7;
+  background: #f7f7f7;
+}

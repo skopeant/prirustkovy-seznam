@@ -1,0 +1,22 @@
+{
+   "id": "prirustkovy-seznam",
+   "title": "Přírůstkový seznam",
+   "subtitle": "by ČVUT Praha",
+   "author": "Antonín Skopec",
+   "icon": {
+      "type": "url",
+      "value": "/assets/prirustkovy-seznam.png"
+   },
+   "pages": {
+      "config": "/#/config",
+      "help": "https://skopec.vosis.cz/alma/cloudapp/prirustkovy-seznam"
+   },
+   "contentSecurity": {
+      "sandbox": {
+         "downloads": true,
+         "popups": true,
+         "popups-to-escape-sandbox": true
+      }
+   },
+   "description": "Creates printable accession lists from a range of inventory numbers. Uses an institution-configured Alma Analytics report to locate records, retrieves additional item, bibliographic and acquisition data from Alma APIs, and generates a PDF."
+}

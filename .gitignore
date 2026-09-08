@@ -1,0 +1,28 @@
+# Node
+node_modules/
+
+# Angular / ECA generated files
+.ng/
+dist/
+.angular/
+.cache/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local environment / secrets
+.env
+.env.*
+*.local
+
+# Local ECA configuration
+config.json

@@ -1,0 +1,257 @@
+<div *ngIf="configMode" class="config-shell">
+  <h1>Nastavení aplikace</h1>
+
+  <p>
+    Toto nastavení platí pro celou instituci. Analytics report musí být
+    uložen ve sdílené složce a musí obsahovat pouze MMS ID a Inventory Number;
+    filtr Inventory Number musí být nastaven jako Is Prompted / obsahuje výzvu.
+  </p>
+
+  <div class="config-field">
+    <label for="analyticsReportPath">Cesta k Analytics reportu</label>
+    <input
+      id="analyticsReportPath"
+      name="analyticsReportPath"
+      type="text"
+      [(ngModel)]="analyticsReportPath"
+      autocomplete="off"
+      placeholder="/shared/Institution/CloudApp/prirustkovy-seznam">
+    <div class="field-help">Např. /shared/Název instituce/CloudApp/prirustkovy-seznam</div>
+  </div>
+
+  <div class="config-field">
+    <label for="institutionName">Název instituce v PDF (volitelné)</label>
+    <input
+      id="institutionName"
+      name="institutionName"
+      type="text"
+      [(ngModel)]="institutionName"
+      autocomplete="off"
+      placeholder="např. České vysoké učení technické v Praze">
+  </div>
+
+  <div class="button-row">
+    <button
+      type="button"
+      (click)="saveConfiguration()"
+      [disabled]="configurationSaving">
+      {{ configurationSaving ? 'Ukládám…' : 'Uložit nastavení' }}
+    </button>
+
+    <button type="button" (click)="goToMain()">
+      Zpět na aplikaci
+    </button>
+  </div>
+
+  <div *ngIf="configurationMessage" class="result">{{ configurationMessage }}</div>
+  <div *ngIf="configurationError" class="error">{{ configurationError }}</div>
+</div>
+
+<ng-container *ngIf="!configMode">
+<div class="app-shell">
+
+  <div class="screen-controls">
+
+    <h1>Přírůstkový seznam</h1>
+
+    <p>
+      Zadejte rozsah přírůstkových čísel.
+      Maximální rozsah je 1000 čísel.
+    </p>
+
+    <div *ngIf="configurationLoaded && !isConfigured" class="config-warning">
+      Aplikace zatím není nakonfigurována. Správce instituce musí v menu aplikace otevřít Konfiguraci a nastavit cestu k Analytics reportu.
+    </div>
+
+    <div class="form-row">
+
+      <div class="field">
+        <label for="inventoryFrom">
+          Přírůstkové číslo OD
+        </label>
+
+        <input
+          id="inventoryFrom"
+          name="inventoryFrom"
+          type="text"
+          [(ngModel)]="inventoryFrom"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          placeholder="např. CVUT-20261161">
+      </div>
+
+      <div class="field">
+        <label for="inventoryTo">
+          Přírůstkové číslo DO
+        </label>
+
+        <input
+          id="inventoryTo"
+          name="inventoryTo"
+          type="text"
+          [(ngModel)]="inventoryTo"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          placeholder="např. CVUT-20261170">
+      </div>
+
+    </div>
+
+    <div class="button-row">
+
+      <button
+        type="button"
+        (click)="loadRange()"
+        [disabled]="loading || creatingPdf">
+        {{ loading ? 'Načítám…' : 'Načíst' }}
+      </button>
+
+      <button
+        type="button"
+        (click)="createPdf()"
+        [disabled]="loading || creatingPdf || items.length === 0">
+        {{ creatingPdf ? 'Vytvářím PDF…' : 'Vytvořit PDF' }}
+      </button>
+
+    </div>
+
+    <div
+      *ngIf="pdfUrl"
+      class="download-box">
+
+      <a
+        [href]="pdfUrl"
+        [attr.download]="pdfFilename"
+        class="download-link">
+        Stáhnout PDF
+      </a>
+
+      <div class="download-name">
+        {{ pdfFilename }}
+      </div>
+
+    </div>
+
+    <div
+      *ngIf="progressMessage"
+      class="progress">
+      {{ progressMessage }}
+    </div>
+
+    <div
+      *ngIf="errorMessage"
+      class="error">
+      {{ errorMessage }}
+    </div>
+
+    <div
+      *ngIf="resultMessage"
+      class="result">
+      {{ resultMessage }}
+    </div>
+
+    <div
+      *ngIf="warnings.length > 0"
+      class="warnings">
+
+      <strong>
+        Upozornění: {{ warnings.length }}
+      </strong>
+
+      <ul>
+        <li *ngFor="let warning of warnings">
+          {{ warning }}
+        </li>
+      </ul>
+
+    </div>
+
+  </div>
+
+  <div
+    *ngIf="items.length > 0"
+    class="report">
+
+    <div class="report-header">
+      <h2>Přírůstkový seznam</h2>
+      <div class="report-range">
+        {{ inventoryFrom }} – {{ inventoryTo }}
+      </div>
+    </div>
+
+    <div class="table-scroll">
+      <table class="report-table">
+
+        <thead>
+          <tr>
+            <th class="col-inventory">Přír. číslo</th>
+            <th class="col-call">Signatura</th>
+            <th class="col-location">Pracoviště</th>
+            <th class="col-description">Popisné údaje</th>
+            <th class="col-mms">MMS ID</th>
+            <th class="col-method">Způsob pořízení</th>
+            <th class="col-price">Cena</th>
+            <th class="col-date">Datum přír. čísla</th>
+            <th class="col-invoice">Číslo faktury</th>
+            <th class="col-vendor">Dodavatel</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let item of items">
+
+            <td class="nowrap">
+              {{ item.inventoryNumber }}
+            </td>
+
+            <td>
+              {{ item.callNumber }}
+            </td>
+
+            <td>
+              {{ item.location }}
+            </td>
+
+            <td class="description-cell">
+              {{ getDescription(item) }}
+            </td>
+
+            <td class="nowrap">
+              {{ item.mmsId }}
+            </td>
+
+            <td>
+              {{ item.acquisitionMethod }}
+            </td>
+
+            <td class="price-cell nowrap">
+              {{ formatPrice(item.inventoryPrice) }}
+            </td>
+
+            <td class="nowrap">
+              {{ formatDate(item.inventoryDate) }}
+            </td>
+
+            <td>
+              {{ item.invoiceNumber }}
+            </td>
+
+            <td>
+              {{ item.vendor }}
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+</ng-container>
