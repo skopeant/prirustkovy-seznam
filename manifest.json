@@ -1,26 +1,53 @@
 {
-   "id": "skopeant/prirustkovy-seznam",
-   "title": "Přírůstkový seznam",
-   "subtitle": "ČVUT Praha",
-   "author": "Antonín Skopec",
-   "license": "https://github.com/skopeant/prirustkovy-seznam/blob/main/LICENSE",
-   "icon": {
-      "type": "url",
-      "value": "/assets/prirustkovy-seznam.png"
-   },
-   "pages": {
-      "config": "/#/config",
-      "help": "https://skopec.vosis.cz/alma/cloudapp/prirustkovy-seznam/en/"
-   },
-   "contentSecurity": {
-      "sandbox": {
-         "downloads": true,
-         "popups": true,
-         "popups-to-escape-sandbox": true
-      }
-   },
-   "relevantForInst": [
-      "420CARDS_CVUT"
-   ],
-   "description": "Internal Alma Cloud App for Czech Technical University in Prague. Creates printable accession lists from a range of inventory numbers using an institution-configured Alma Analytics report and Alma APIs. Requires the Analytics Administrator role."
+  "id": "skopeant/prirustkovy-seznam",
+  "title": [
+    {
+      "lang": "en",
+      "text": "Accession List"
+    },
+    {
+      "lang": "cs",
+      "text": "Přírůstkový seznam"
+    }
+  ],
+  "subtitle": [
+    {
+      "lang": "en",
+      "text": "Printable accession lists from inventory number ranges"
+    },
+    {
+      "lang": "cs",
+      "text": "Tisk přírůstkových seznamů podle rozsahu přírůstkových čísel"
+    }
+  ],
+  "author": "Antonín Skopec",
+  "license": "https://github.com/skopeant/prirustkovy-seznam/blob/main/LICENSE",
+  "icon": {
+    "type": "url",
+    "value": "/assets/prirustkovy-seznam.png"
+  },
+  "pages": {
+    "config": "/#/config",
+    "help": "https://skopec.vosis.cz/alma/cloudapp/prirustkovy-seznam/en/"
+  },
+  "contentSecurity": {
+    "sandbox": {
+      "downloads": true,
+      "popups": true,
+      "popups-to-escape-sandbox": true
+    }
+  },
+  "relevantForInst": [
+    "420CARDS_CVUT"
+  ],
+  "description": [
+    {
+      "lang": "en",
+      "text": "Creates printable accession lists from a range of inventory numbers using an institution-configured Alma Analytics report and Alma APIs. Requires the Analytics Administrator role."
+    },
+    {
+      "lang": "cs",
+      "text": "Vytváří tisknutelné přírůstkové seznamy z rozsahu přírůstkových čísel pomocí institucí nastaveného reportu Alma Analytics a Alma API. Vyžaduje roli Analytics Administrator."
+    }
+  ]
 }

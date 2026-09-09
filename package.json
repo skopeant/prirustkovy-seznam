@@ -1,7 +1,7 @@
 {
-  "name": "alma-prirustkovy-seznam",
-  "version": "2.2.0",
-  "description": "Internal Alma Cloud App for Czech Technical University in Prague for generating printable accession lists.",
+  "name": "prirustkovy-seznam",
+  "version": "2.3.0",
+  "description": "Ex Libris Alma Cloud App for generating printable accession lists from inventory number ranges.",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -52,6 +52,6 @@
     "typescript": "5.5.4"
   },
   "overrides": {
-   "tar": "7.5.22"
+    "tar": "7.5.22"
   }
 }

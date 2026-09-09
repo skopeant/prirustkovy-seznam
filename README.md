@@ -1,29 +1,33 @@
-# Alma Accession List
+# Accession List
 
-Cloud App for Ex Libris Alma that generates printable accession lists from a range of inventory numbers.
+[English](README.md) | [Česky](README.cs.md)
+
+Accession List is an Ex Libris Alma Cloud App for generating printable accession lists from a range of inventory numbers.
+
+The application is currently restricted to the Czech Technical University in Prague.
 
 ## Features
 
-* Search by inventory number range (`FROM` / `TO`)
-* Uses an institution-configured Alma Analytics report to locate matching records
-* Retrieves additional bibliographic, item and acquisition data through Alma REST APIs
-* Generates a downloadable PDF
-* Institution-wide configuration for the Analytics report path
-* No institution-specific inventory prefix is hard-coded
+- Search by inventory number range (`FROM` / `TO`)
+- Use an institution-configured Alma Analytics report to locate matching records
+- Retrieve additional bibliographic, item and acquisition data through Alma REST APIs
+- Generate a printable and downloadable PDF
+- Configure the Analytics report path at institution level
+- No institution-specific inventory-number prefix is hard-coded
 
 ## Requirements
 
-* Ex Libris Alma with Cloud Apps support
-* Alma Analytics
-* A shared Analytics report in the institution's Shared folder
-* Appropriate Alma permissions for the data used by the app
+- Ex Libris Alma with Cloud Apps support
+- Alma Analytics
+- A shared Analytics report in the institution's Shared folder
+- Analytics Administrator role
 
 ## Analytics report
 
-Create an analysis in the **Physical Items** subject area with these two fields:
+Create an analysis in the **Physical Items** subject area containing:
 
-* `Bibliographic Details > MMS Id`
-* `Physical Item Details > Inventory Number`
+- `Bibliographic Details > MMS Id`
+- `Physical Item Details > Inventory Number`
 
 Set the `Inventory Number` filter to:
 
@@ -35,6 +39,26 @@ Save the report in the institution's Shared folder, for example:
 
 Then enter the full report path in the Cloud App configuration.
 
+## Security and data handling
+
+The application reads data from Alma Analytics and Alma APIs in order to generate the accession list.
+
+It does not contain its own Alma API key. Access to Alma data is performed through the authenticated Cloud App environment and the permissions of the logged-in Alma user.
+
+The generated PDF is created for the user in the browser.
+
+## Institution restriction
+
+The manifest contains:
+
+```json
+"relevantForInst": [
+  "420CARDS_CVUT"
+]
+```
+
+The Cloud App is therefore available in Alma only to the Czech Technical University in Prague, while the source repository remains public for the Ex Libris publishing process.
+
 ## Documentation
 
 English:
@@ -42,6 +66,27 @@ https://skopec.vosis.cz/alma/cloudapp/prirustkovy-seznam/en/
 
 Česky:
 https://skopec.vosis.cz/alma/cloudapp/prirustkovy-seznam/
+
+## Local development
+
+After cloning the repository:
+
+```text
+eca init
+eca start
+```
+
+During `eca init`, a local `config.json` containing the Alma environment URL is created. It must not be committed.
+
+## Build
+
+Before creating a release:
+
+```text
+eca build
+```
+
+The production build must complete successfully before a GitHub Release is created.
 
 ## Author
 
@@ -53,5 +98,4 @@ MIT License. See [LICENSE](LICENSE).
 
 ## Version
 
-2.1.0
-
+2.3.0
