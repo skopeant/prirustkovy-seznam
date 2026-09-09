@@ -8,6 +8,9 @@ The application is currently restricted to the Czech Technical University in Pra
 
 ## Features
 
+- selectable landscape or portrait A4 PDF
+- journal and serial descriptions include the ISSN from MARC 022 when available
+
 - Search by inventory number range (`FROM` / `TO`)
 - Use an institution-configured Alma Analytics report to locate matching records
 - Retrieve additional bibliographic, item and acquisition data through Alma REST APIs
@@ -98,4 +101,4 @@ MIT License. See [LICENSE](LICENSE).
 
 ## Version
 
-2.3.0
+2.4.0

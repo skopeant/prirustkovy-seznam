@@ -1,6 +1,6 @@
 {
   "name": "prirustkovy-seznam",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "Ex Libris Alma Cloud App for generating printable accession lists from inventory number ranges.",
   "license": "MIT",
   "private": true,

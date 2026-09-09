@@ -71,6 +71,10 @@ export class MainComponent {
   pdfUrl = '';
   pdfFilename = '';
 
+  // Výchozí PDF zůstává na šířku; uživatel může před vytvořením PDF
+  // přepnout na kompaktní variantu A4 na výšku.
+  printOrientation: 'landscape' | 'portrait' = 'landscape';
+
   // Institucionální konfigurace. Ukládá se v Alma CloudAppConfigService,
   // není tedy součástí zdrojového kódu a každá instituce si nastaví vlastní hodnoty.
   analyticsReportPath = '';
@@ -928,13 +932,18 @@ export class MainComponent {
     let host: HTMLDivElement | null = null;
 
     try {
+      const portrait = this.printOrientation === 'portrait';
+      const itemsPerPage = 10;
+      const orientation: 'portrait' | 'landscape' =
+        portrait ? 'portrait' : 'landscape';
+
       const pageChunks: InventoryItem[][] = [];
-      for (let i = 0; i < this.items.length; i += 10) {
-        pageChunks.push(this.items.slice(i, i + 10));
+      for (let i = 0; i < this.items.length; i += itemsPerPage) {
+        pageChunks.push(this.items.slice(i, i + itemsPerPage));
       }
 
       const pdf = new jsPDF({
-        orientation: 'landscape',
+        orientation,
         unit: 'mm',
         format: 'a4',
         compress: true
@@ -945,7 +954,7 @@ export class MainComponent {
       host.style.position = 'fixed';
       host.style.left = '-20000px';
       host.style.top = '0';
-      host.style.width = '1123px';
+      host.style.width = portrait ? '794px' : '1123px';
       host.style.background = '#fff';
       host.style.zIndex = '-9999';
       document.body.appendChild(host);
@@ -957,7 +966,8 @@ export class MainComponent {
         host.innerHTML = this.buildPdfPageHtml(
           pageChunks[pageIndex],
           pageIndex + 1,
-          pageChunks.length
+          pageChunks.length,
+          orientation
         );
 
         await new Promise(resolve => setTimeout(resolve, 50));
@@ -977,7 +987,7 @@ export class MainComponent {
         const imageData = canvas.toDataURL('image/jpeg', 0.93);
 
         if (pageIndex > 0) {
-          pdf.addPage('a4', 'landscape');
+          pdf.addPage('a4', orientation);
         }
 
         const pageWidth = pdf.internal.pageSize.getWidth();
@@ -997,14 +1007,17 @@ export class MainComponent {
 
       const safeFrom = this.inventoryFrom.trim().replace(/[^A-Za-z0-9._-]+/g, '_');
       const safeTo = this.inventoryTo.trim().replace(/[^A-Za-z0-9._-]+/g, '_');
+      const layoutSuffix = portrait ? 'na-vysku' : 'na-sirku';
 
-      this.pdfFilename = `prirustkovy-seznam_${safeFrom}_${safeTo}.pdf`;
+      this.pdfFilename =
+        `prirustkovy-seznam_${safeFrom}_${safeTo}_${layoutSuffix}.pdf`;
 
       const blob = pdf.output('blob');
       this.pdfUrl = URL.createObjectURL(blob);
       this.progressMessage = '';
       this.resultMessage =
-        `PDF připraveno: ${pageChunks.length} stran, ${this.items.length} jednotek. ` +
+        `PDF připraveno (${portrait ? 'na výšku' : 'na šířku'}): ` +
+        `${pageChunks.length} stran, ${this.items.length} jednotek. ` +
         `Klikněte na „Stáhnout PDF“.`;
 
     } catch (e: any) {
@@ -1031,14 +1044,27 @@ export class MainComponent {
   private buildPdfPageHtml(
     items: InventoryItem[],
     pageNumber: number,
+    pageCount: number,
+    orientation: 'portrait' | 'landscape'
+  ): string {
+    if (orientation === 'portrait') {
+      return this.buildPortraitPdfPageHtml(items, pageNumber, pageCount);
+    }
+
+    return this.buildLandscapePdfPageHtml(items, pageNumber, pageCount);
+  }
+
+  private buildLandscapePdfPageHtml(
+    items: InventoryItem[],
+    pageNumber: number,
     pageCount: number
   ): string {
     const rows = items.map(item => `
       <tr>
         <td class="nowrap">${this.escapeHtml(item.inventoryNumber)}</td>
+        <td class="description">${this.escapeHtml(this.getDescription(item))}</td>
         <td>${this.escapeHtml(item.callNumber)}</td>
         <td>${this.escapeHtml(item.location)}</td>
-        <td class="description">${this.escapeHtml(this.getDescription(item))}</td>
         <td class="nowrap">${this.escapeHtml(item.mmsId)}</td>
         <td>${this.escapeHtml(item.acquisitionMethod)}</td>
         <td class="price nowrap">${this.escapeHtml(this.formatPrice(item.inventoryPrice))}</td>
@@ -1063,8 +1089,8 @@ export class MainComponent {
           .nowrap { white-space: nowrap; }
           .price { text-align: right; }
           .description { line-height: 1.18; }
-          .c1 { width: 9%; } .c2 { width: 6%; } .c3 { width: 11%; } .c4 { width: 28%; } .c5 { width: 11%; }
-          .c6 { width: 10%; } .c7 { width: 6%; } .c8 { width: 8%; } .c9 { width: 7%; } .c10 { width: 9%; }
+          .c1 { width: 9%; } .c2 { width: 27%; } .c3 { width: 6%; } .c4 { width: 9%; } .c5 { width: 12%; }
+          .c6 { width: 9%; } .c7 { width: 6%; } .c8 { width: 8%; } .c9 { width: 7%; } .c10 { width: 7%; }
         </style>
 
         <div class="pdf-header">
@@ -1082,9 +1108,9 @@ export class MainComponent {
           <thead>
             <tr>
               <th class="c1">Přír. číslo</th>
-              <th class="c2">Signatura</th>
-              <th class="c3">Pracoviště</th>
-              <th class="c4">Popisné údaje</th>
+              <th class="c2">Popisné údaje</th>
+              <th class="c3">Signatura</th>
+              <th class="c4">Pracoviště</th>
               <th class="c5">MMS ID</th>
               <th class="c6">Způsob pořízení</th>
               <th class="c7">Cena</th>
@@ -1095,6 +1121,75 @@ export class MainComponent {
           </thead>
           <tbody>${rows}</tbody>
         </table>
+      </div>
+    `;
+  }
+
+  private buildPortraitPdfPageHtml(
+    items: InventoryItem[],
+    pageNumber: number,
+    pageCount: number
+  ): string {
+    const records = items.map(item => `
+      <div class="portrait-item">
+        <div class="portrait-top">
+          <div class="inventory">${this.escapeHtml(item.inventoryNumber)}</div>
+          <div class="call">${this.escapeHtml(item.callNumber)}</div>
+          <div class="location">${this.escapeHtml(item.location)}</div>
+        </div>
+
+        <div class="portrait-content">
+          <div class="portrait-description">
+            ${this.escapeHtml(this.getDescription(item))}
+          </div>
+
+          <div class="portrait-meta">
+            <div><span class="label">MMS ID:</span> ${this.escapeHtml(item.mmsId)}</div>
+            <div><span class="label">Datum:</span> ${this.escapeHtml(this.formatDate(item.inventoryDate))}</div>
+            <div><span class="label">Způsob pořízení:</span> ${this.escapeHtml(item.acquisitionMethod)}</div>
+            <div><span class="label">Cena:</span> ${this.escapeHtml(this.formatPrice(item.inventoryPrice))}</div>
+            <div><span class="label">Faktura:</span> ${this.escapeHtml(item.invoiceNumber)}</div>
+            <div><span class="label">Dodavatel:</span> ${this.escapeHtml(item.vendor)}</div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    return `
+      <div class="pdf-page portrait-page">
+        <style>
+          .pdf-page { box-sizing: border-box; width: 794px; height: 1123px; padding: 30px 34px 28px 34px; background: #fff; color: #000; font-family: Arial, Helvetica, sans-serif; overflow: hidden; }
+          .pdf-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #777; }
+          .pdf-header h1 { margin: 0; font-size: 27px; line-height: 1.08; }
+          .pdf-institution { margin-top: 4px; font-size: 12px; }
+          .pdf-meta { font-size: 12px; text-align: right; line-height: 1.35; }
+          .portrait-list { width: 100%; }
+          .portrait-item { box-sizing: border-box; height: 96px; padding: 5px 0 5px 0; border-bottom: 1px solid #aaa; font-size: 10px; line-height: 1.15; break-inside: avoid; overflow: hidden; }
+          .portrait-top { display: grid; grid-template-columns: 128px 138px minmax(0, 1fr); column-gap: 8px; margin-bottom: 2px; align-items: baseline; }
+          .portrait-top .inventory { font-size: 11px; font-weight: 700; white-space: nowrap; }
+          .portrait-top .call { font-weight: 600; overflow-wrap: anywhere; word-break: break-word; }
+          .portrait-top .location { font-weight: 600; overflow-wrap: anywhere; word-break: break-word; }
+          .portrait-top .location { font-size: 9.5px; }
+          .portrait-content { display: grid; grid-template-columns: minmax(0, 1fr) 215px; column-gap: 10px; }
+          .portrait-description { font-size: 10.5px; line-height: 1.14; overflow-wrap: anywhere; }
+          .portrait-meta { font-size: 9.5px; line-height: 1.16; }
+          .portrait-meta .label { font-weight: 700; }
+        </style>
+
+        <div class="pdf-header">
+          <div>
+            <h1>Přírůstkový seznam</h1>
+            ${this.institutionName ? `<div class="pdf-institution">${this.escapeHtml(this.institutionName)}</div>` : ''}
+          </div>
+          <div class="pdf-meta">
+            <div>${this.escapeHtml(this.inventoryFrom)} - ${this.escapeHtml(this.inventoryTo)}</div>
+            <div>Strana ${pageNumber} / ${pageCount}</div>
+          </div>
+        </div>
+
+        <div class="portrait-list">
+          ${records}
+        </div>
       </div>
     `;
   }

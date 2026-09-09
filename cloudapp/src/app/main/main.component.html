@@ -99,6 +99,28 @@
 
     </div>
 
+    <div class="print-format">
+      <span class="print-format-label">Formát PDF:</span>
+
+      <label>
+        <input
+          type="radio"
+          name="printOrientation"
+          value="landscape"
+          [(ngModel)]="printOrientation">
+        Na šířku
+      </label>
+
+      <label>
+        <input
+          type="radio"
+          name="printOrientation"
+          value="portrait"
+          [(ngModel)]="printOrientation">
+        Na výšku
+      </label>
+    </div>
+
     <div class="button-row">
 
       <button
@@ -187,9 +209,9 @@
         <thead>
           <tr>
             <th class="col-inventory">Přír. číslo</th>
+            <th class="col-description">Popisné údaje</th>
             <th class="col-call">Signatura</th>
             <th class="col-location">Pracoviště</th>
-            <th class="col-description">Popisné údaje</th>
             <th class="col-mms">MMS ID</th>
             <th class="col-method">Způsob pořízení</th>
             <th class="col-price">Cena</th>
@@ -207,16 +229,16 @@
               {{ item.inventoryNumber }}
             </td>
 
+            <td class="description-cell">
+              {{ getDescription(item) }}
+            </td>
+
             <td>
               {{ item.callNumber }}
             </td>
 
             <td>
               {{ item.location }}
-            </td>
-
-            <td class="description-cell">
-              {{ getDescription(item) }}
             </td>
 
             <td class="nowrap">

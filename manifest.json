@@ -28,7 +28,7 @@
   },
   "pages": {
     "config": "/#/config",
-    "help": "https://skopec.vosis.cz/alma/cloudapp/prirustkovy-seznam/en/"
+    "help": "https://skopec.vosis.cz/alma/cloudapp/prirustkovy-seznam/"
   },
   "contentSecurity": {
     "sandbox": {

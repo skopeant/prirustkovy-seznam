@@ -12,6 +12,8 @@ Aplikace je v současnosti omezena na České vysoké učení technické v Praze
 - použití institucí nastaveného reportu Alma Analytics pro nalezení odpovídajících záznamů
 - načtení dalších bibliografických údajů, údajů o jednotkách a akvizici prostřednictvím Alma REST API
 - vytvoření tisknutelného a stažitelného PDF
+- volba PDF na šířku nebo na výšku; varianta na výšku používá kompaktní bloky jednotlivých záznamů
+- u časopisů a dalších seriálů se v popisných údajích zobrazuje také ISSN z MARC 022, pokud je v záznamu dostupné
 - konfigurace cesty k Analytics reportu na úrovni instituce
 - žádný prefix přírůstkových čísel není v aplikaci napevno
 
@@ -98,4 +100,4 @@ MIT License. Viz [LICENSE](LICENSE).
 
 ## Verze
 
-2.3.0
+2.4.0
